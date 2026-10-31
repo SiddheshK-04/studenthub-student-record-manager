@@ -1,4 +1,6 @@
-# StudentHub — Student Record Manager
+# StudentHub - Student Record Manager
+
+A MERN stack web application to add, view, update, delete and search student records.
 
 ## College Details
 
@@ -9,112 +11,145 @@
 Department of Information Technology  
 B.Sc. Information Technology — Semester V
 
-## Project Details
+## Student Details
 
 | Particulars | Details |
 |---|---|
-| Student Name | Siddhesh Kamble |
-| Roll Number | T009 |
-| Class | TYIT |
-| Batch | TYIT |
+| Name | Siddhesh Kamble |
+| Roll No. | T009 |
+| Class / Batch | TYIT |
 | Subject | Full Stack Development using MERN |
 | Academic Year | 2026 |
-| Project Title | StudentHub — Student Record Manager |
+| Project Title | StudentHub - Student Record Manager |
 
-## 1. Project Title
+## Description
 
-StudentHub — Student Record Manager
+StudentHub stores student details (name, roll number, course, email, phone, marks) in MongoDB.
 
-## 2. Objective
+The React frontend displays records in a table with search functionality, and the Express/Mongoose backend provides REST APIs with validation and duplicate-roll-number protection.
 
-The main objective of this project is to develop a web application using React, Node.js, Express.js, and MongoDB.
+## Technologies Used
 
-The application allows users to add, view, update, delete, and search student records. It helps students understand CRUD operations, API integration, database connectivity, and form validation using the MERN stack.
-
-## 3. Project Description
-
-StudentHub is a web-based application designed to manage student records.
-
-Users can add student details such as name, roll number, course, email, phone number, and marks.
-
-The application displays student records in a table and allows users to search, edit, and delete records.
-
-The frontend is developed using React, while Node.js and Express.js handle backend operations. MongoDB stores student records, and Mongoose manages database operations. Axios connects the frontend with the backend APIs.
-
-Each roll number is unique, preventing duplicate student records.
-
-## 4. Functional Requirements
-
-- Add student records
-- View student records
-- Update student records
-- Delete student records
-- Search student records
-- Form validation
-- Duplicate roll number prevention
-- Success and error messages
-
-## 5. Tools and Technologies Used
-
-- React.js
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
+- React (Vite) with `useState()` and `useEffect()`
+- Node.js and Express.js
+- MongoDB and Mongoose
 - Axios
 - Visual Studio Code
-- Git
-- GitHub
+- Git and GitHub
 
-## 6. Technical Requirements
+## Features
 
-- Develop the frontend using React.
-- Use React Hooks such as useState() and useEffect().
-- Use Axios for API communication.
-- Create REST APIs using Express.js.
-- Store records using MongoDB and Mongoose.
-- Implement GET, POST, PUT, and DELETE operations.
-- Perform frontend and backend validation.
+- Add, view, update and delete student records (full CRUD)
+- Search by name, roll number, course, email or phone
+- Frontend and backend validation (required fields, no spaces-only text, email format, 10-digit phone, marks 0-100)
+- Duplicate roll numbers rejected with a clear message (HTTP 409)
+- Confirmation dialog before deleting
+- Success and error messages for every action
 
-## 7. Validation Requirements
+## Project Structure
 
-- All required fields must be entered.
-- Text fields must not contain only spaces.
-- Name must contain valid characters.
-- Roll number must be unique.
-- Email must be in a valid format.
-- Phone number must be a valid 10-digit number.
-- Marks must be between 0 and 100.
-- Duplicate roll numbers must be prevented.
-- Invalid inputs must display suitable error messages.
-- Confirmation must appear before deleting records.
+\```text
+studenthub/
+  backend/    Express API, Mongoose model, routes, error handler
+  frontend/   React app (Vite)
+\```
 
-## 8. Testing and Demonstration
-
-The application will be tested for:
-
-- Adding student records
-- Viewing student records
-- Updating student records
-- Deleting student records
-- Searching student records
-- Form validation
-- Duplicate roll number checking
-- API testing using Postman
-- Database verification using MongoDB Compass
-- Frontend and backend integration
-
-## 9. How to Run the Project
+## How to Run
 
 ### Prerequisites
 
-- Node.js
-- MongoDB
-- Visual Studio Code
+Node.js 18+ and MongoDB running locally (or a MongoDB Atlas connection string).
 
-### Backend Setup
+### 1. Backend
 
-```bash
+\```bash
 cd backend
 npm install
-npm run dev
+cp .env.example .env
+npm run seed              # Optional: load sample students
+npm run dev              # Starts on http://localhost:5000
+\```
+
+**For Windows:**
+\```bash
+copy .env.example .env
+\```
+
+### 2. Frontend
+
+\```bash
+cd frontend
+npm install
+npm run dev              # Opens on http://localhost:5173
+\```
+
+The Vite development server proxies `/api` to `http://localhost:5000`, so no additional configuration is required.
+
+## API Endpoints
+
+| Method | URL | Purpose |
+|--------|-----|---------|
+| GET | `/api/students?search=term` | List / search students |
+| GET | `/api/students/:id` | Get one student |
+| POST | `/api/students` | Add a student |
+| PUT | `/api/students/:id` | Update a student |
+| DELETE | `/api/students/:id` | Delete a student |
+
+### Sample POST Body
+
+\```json
+{
+  "name": "Siddhesh Kamble",
+  "rollNo": "T009",
+  "course": "B.Sc.IT",
+  "email": "siddhesh@example.com",
+  "phone": "9545040788",
+  "marks": 82
+}
+\```
+
+## Validation Rules
+
+| Field | Rule |
+|-------|------|
+| Name | Required, 2-60 characters, letters/spaces/. ' - only; spaces-only rejected |
+| Roll Number | Required, unique, 3-15 characters (letters, digits, hyphen), stored in uppercase |
+| Course | Required, one of B.Sc.IT, B.Sc.CS, B.Com, BMS, BAF, BA |
+| Email | Required, valid format, stored in lowercase |
+| Phone | Required, 10 digits starting with 6-9 |
+| Marks | Required, number between 0 and 100 |
+
+## Testing Checklist
+
+1. Add a valid student → appears in table and MongoDB Compass.
+2. Edit a student → changes are saved.
+3. Delete a student → confirmation shown and record removed.
+4. Search "T00" or "B.Sc.IT" → table filters correctly.
+5. Submit empty form → field error messages appear.
+6. Enter marks 150 or phone 12345 → validation errors appear.
+7. Add an existing roll number T009 → duplicate error appears.
+8. Test GET, POST, PUT, DELETE using Postman.
+9. Stop the backend → frontend displays an error message.
+
+## GitHub Repository
+
+Repository: `studenthub-student-record-manager`
+
+## Author
+
+**Siddhesh Kamble**  
+Roll No.: T009  
+Class: TYIT  
+B.Sc. Information Technology — Semester V
+
+**Subject:** Full Stack Development using MERN
+
+**Academic Year:** 2026
+
+## College
+
+Laxmi Charitable Trust's  
+Sheth L.U.J College of Arts & Sir M.V. College of Science and Commerce  
+Department of Information Technology
+
+---
